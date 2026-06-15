@@ -259,14 +259,14 @@
   <br>
   <button id="refresh-btn" onclick="loadData()">&#x21BB; Refresh Live Data</button>
   <div id="last-updated"></div>
-  <div id="auto-refresh-note">Auto-refreshes every 60 seconds</div>
+  <div id="auto-refresh-note">Scores updated every 5 min via GitHub Action</div>
   <div id="error-msg"></div>
 </header>
 
 <div id="leaderboard"></div>
 <div id="grid"></div>
 
-<footer>&#x1F3C6; World Cup 2026 &middot; USA, Canada &amp; Mexico &middot; Jun 11 &ndash; Jul 19 &middot; Data: TheSportsDB</footer>
+<footer>&#x1F3C6; World Cup 2026 &middot; USA, Canada &amp; Mexico &middot; Jun 11 &ndash; Jul 19 &middot; Data: API-Football</footer>
 
 <script>
 // ---------------------------------------------------------------
@@ -336,29 +336,15 @@ function getRemainingFixtures(teamName) {
 }
 
 // ---------------------------------------------------------------
-// API CONFIG - TheSportsDB free tier (no signup required)
-// League ID 4429 = FIFA World Cup. Verify at:
-// https://www.thesportsdb.com/api/v1/json/123/lookuptable.php?l=4429&s=2026
-// If that returns no "table" data yet, the season key or league id
-// may need adjusting once TheSportsDB populates 2026 data.
+// DATA SOURCE
+// scores.json is written by the GitHub Action (.github/workflows/
+// fetch-scores.yml) every 5 minutes. This page just reads it.
+// No API keys, no CORS issues, no rate limits.
 // ---------------------------------------------------------------
-const API_BASE = 'https://www.thesportsdb.com/api/v1/json/123';
-const LEAGUE_ID = '4429';
-const SEASON = '2026';
-const REFRESH_INTERVAL_MS = 60000; // 60 seconds
+const REFRESH_INTERVAL_MS = 5 * 60 * 1000; // re-fetch scores.json every 5 min
 
 let liveData = {};
 let refreshTimer = null;
-
-function normalize(s) {
-  return (s || '').toLowerCase().trim();
-}
-
-async function fetchJSON(url) {
-  const res = await fetch(url);
-  if (!res.ok) throw new Error('HTTP ' + res.status);
-  return res.json();
-}
 
 async function loadData() {
   const btn = document.getElementById('refresh-btn');
@@ -368,91 +354,46 @@ async function loadData() {
   errEl.style.display = 'none';
 
   try {
-    const [tableData, pastData, nextData] = await Promise.all([
-      fetchJSON(`${API_BASE}/lookuptable.php?l=${LEAGUE_ID}&s=${SEASON}`),
-      fetchJSON(`${API_BASE}/eventspastleague.php?id=${LEAGUE_ID}`),
-      fetchJSON(`${API_BASE}/eventsnextleague.php?id=${LEAGUE_ID}`)
-    ]);
+    // Cache-bust so the browser always gets the latest version
+    const res = await fetch('scores.json?t=' + Date.now());
+    if (!res.ok) throw new Error('scores.json not found (HTTP ' + res.status + ')');
+    const data = await res.json();
 
-    const table = tableData.table || [];
-    const pastEvents = pastData.events || [];
-    const nextEvents = nextData.events || [];
+    if (!data.teams) throw new Error('Unexpected scores.json format');
 
-    if (!table.length && !pastEvents.length && !nextEvents.length) {
-      throw new Error('No tournament data returned yet - check LEAGUE_ID/SEASON');
-    }
-
+    // Merge in STAGE_OVERRIDES on top of what the Action wrote
     const newLiveData = {};
-
-    SWEEPSTAKE.forEach(entry => {
-      const teamName = entry.team;
-      const row = table.find(t => normalize(t.strTeam) === normalize(teamName));
-
-      // Last result
-      let lastResult = 'No games yet';
-      const teamPast = pastEvents
-        .filter(e => normalize(e.strHomeTeam) === normalize(teamName) || normalize(e.strAwayTeam) === normalize(teamName))
-        .filter(e => e.intHomeScore !== null && e.intAwayScore !== null)
-        .sort((a, b) => new Date(b.dateEvent) - new Date(a.dateEvent));
-
-      if (teamPast.length) {
-        const m = teamPast[0];
-        const isHome = normalize(m.strHomeTeam) === normalize(teamName);
-        const own = Number(isHome ? m.intHomeScore : m.intAwayScore);
-        const opp = Number(isHome ? m.intAwayScore : m.intHomeScore);
-        const oppName = isHome ? m.strAwayTeam : m.strHomeTeam;
-        let letter = 'D';
-        if (own > opp) letter = 'W';
-        else if (own < opp) letter = 'L';
-        lastResult = `${letter} ${own}-${opp} vs ${oppName}`;
-      }
-
-      // Next match
-      let nextMatch = 'TBD';
-      const teamNext = nextEvents
-        .filter(e => normalize(e.strHomeTeam) === normalize(teamName) || normalize(e.strAwayTeam) === normalize(teamName))
-        .sort((a, b) => new Date(a.dateEvent) - new Date(b.dateEvent));
-
-      if (teamNext.length) {
-        const m = teamNext[0];
-        const isHome = normalize(m.strHomeTeam) === normalize(teamName);
-        const opp = isHome ? m.strAwayTeam : m.strHomeTeam;
-        const dateStr = m.dateEvent
-          ? new Date(m.dateEvent).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' })
-          : '';
-        const timeStr = (m.strTime && m.strTime !== '00:00:00') ? m.strTime.slice(0, 5) : '';
-        nextMatch = `vs ${opp}, ${dateStr}${timeStr ? ' ' + timeStr : ''}`;
-      }
-
-      const override = STAGE_OVERRIDES[teamName];
-      const stage = override ? override.stage : 'Group Stage';
-      const status = override ? override.status : 'Active';
-
-      newLiveData[teamName] = {
-        status,
-        stage,
-        played: row ? Number(row.intPlayed) : 0,
-        won: row ? Number(row.intWin) : 0,
-        drawn: row ? Number(row.intDraw) : 0,
-        lost: row ? Number(row.intLoss) : 0,
-        gf: row ? Number(row.intGoalsFor) : 0,
-        ga: row ? Number(row.intGoalsAgainst) : 0,
-        points: row ? Number(row.intPoints) : 0,
-        lastResult,
-        nextMatch: status === 'Eliminated' ? 'Eliminated' : nextMatch,
+    SWEEPSTAKE.forEach(({ team }) => {
+      const row = data.teams[team] || {};
+      const override = STAGE_OVERRIDES[team];
+      newLiveData[team] = {
+        status:     override ? override.status : (row.status || 'Active'),
+        stage:      override ? override.stage  : (row.stage  || 'Group Stage'),
+        played:     row.played  || 0,
+        won:        row.won     || 0,
+        drawn:      row.drawn   || 0,
+        lost:       row.lost    || 0,
+        gf:         row.gf      || 0,
+        ga:         row.ga      || 0,
+        points:     row.points  || 0,
+        lastResult: row.lastResult || 'No games yet',
+        nextMatch:  override && override.status === 'Eliminated'
+                      ? 'Eliminated'
+                      : (row.nextMatch || 'TBD'),
       };
     });
 
     liveData = newLiveData;
-    document.getElementById('last-updated').textContent =
-      'Last updated: ' + new Date().toLocaleTimeString();
+    const updatedAt = data.lastUpdated ? `scores updated ${data.lastUpdated}` : new Date().toLocaleTimeString();
+    document.getElementById('last-updated').textContent = 'Last updated: ' + updatedAt;
+
   } catch (e) {
-    errEl.textContent = '\u26A0 Could not fetch live data (' + e.message + '). Showing last known data.';
+    errEl.textContent = '\u26A0 ' + e.message + ' — falling back to scheduled fixtures.';
     errEl.style.display = 'inline-block';
   }
 
   btn.disabled = false;
-  btn.textContent = '\u21BB Refresh Live Data';
+  btn.textContent = '\u21BB Refresh';
   render();
 }
 
