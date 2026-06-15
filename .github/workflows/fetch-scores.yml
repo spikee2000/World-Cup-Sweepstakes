@@ -15,7 +15,7 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
 
-      - name: Fetch scores from API-Football (free tier)
+      - name: Fetch scores from API-Football
         env:
           API_KEY: ${{ secrets.APIFOOTBALL_KEY }}
         run: |
@@ -30,4 +30,13 @@ jobs:
             -o raw_past.json
 
           curl -s \
-            -H "x-apis
+            -H "x-apisports-key: ${API_KEY}" \
+            "https://v3.football.api-sports.io/fixtures?league=1&season=2026&next=20" \
+            -o raw_upcoming.json
+
+      - name: Commit and push if changed
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          git add raw_*.json
+          git diff --quiet && git diff --staged --quiet || (git commit -m "Update World Cup scores - $(date)" && git push)
