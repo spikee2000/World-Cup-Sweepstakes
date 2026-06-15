@@ -19,107 +19,152 @@ jobs:
         env:
           API_KEY: ${{ secrets.APIFOOTBALL_KEY }}
         run: |
+          echo "Fetching standings..."
           curl -s \
             -H "x-apisports-key: ${API_KEY}" \
             "https://v3.football.api-sports.io/standings?league=1&season=2026" \
             -o raw_standings.json
-
+          
+          echo "Fetching past fixtures..."
           curl -s \
             -H "x-apisports-key: ${API_KEY}" \
             "https://v3.football.api-sports.io/fixtures?league=1&season=2026&last=20" \
             -o raw_past.json
-
+          
+          echo "Fetching upcoming fixtures..."
           curl -s \
             -H "x-apisports-key: ${API_KEY}" \
             "https://v3.football.api-sports.io/fixtures?league=1&season=2026&next=20" \
             -o raw_upcoming.json
+          
+          echo "Files downloaded successfully"
+          ls -lh raw_*.json
 
       - name: Process scores with Node.js
         run: |
           node << 'EOF'
           const fs = require('fs');
           
-          // Read the raw API responses
-          const standings = JSON.parse(fs.readFileSync('raw_standings.json', 'utf8'));
-          const pastFixtures = JSON.parse(fs.readFileSync('raw_past.json', 'utf8'));
-          const upcomingFixtures = JSON.parse(fs.readFileSync('raw_upcoming.json', 'utf8'));
-          
-          // Build team data from standings
-          const teams = {};
-          
-          if (standings.response && standings.response[0] && standings.response[0].standings) {
-            standings.response[0].standings.forEach(group => {
-              group.forEach(team => {
-                teams[team.team.name] = {
-                  status: 'Active',
-                  stage: 'Group Stage',
-                  played: team.all.played,
-                  won: team.all.win,
-                  drawn: team.all.draw,
-                  lost: team.all.lose,
-                  gf: team.all.goals.for,
-                  ga: team.all.goals.against,
-                  points: team.points,
-                  lastResult: 'No games yet',
-                  nextMatch: 'TBD'
-                };
+          try {
+            // Read the raw API responses
+            let standings = { response: [] };
+            let pastFixtures = { response: [] };
+            let upcomingFixtures = { response: [] };
+            
+            if (fs.existsSync('raw_standings.json')) {
+              standings = JSON.parse(fs.readFileSync('raw_standings.json', 'utf8'));
+              console.log('Standings loaded:', standings.response ? standings.response.length : 0, 'groups');
+            }
+            
+            if (fs.existsSync('raw_past.json')) {
+              pastFixtures = JSON.parse(fs.readFileSync('raw_past.json', 'utf8'));
+              console.log('Past fixtures loaded:', pastFixtures.response ? pastFixtures.response.length : 0, 'matches');
+            }
+            
+            if (fs.existsSync('raw_upcoming.json')) {
+              upcomingFixtures = JSON.parse(fs.readFileSync('raw_upcoming.json', 'utf8'));
+              console.log('Upcoming fixtures loaded:', upcomingFixtures.response ? upcomingFixtures.response.length : 0, 'matches');
+            }
+            
+            // Build team data from standings
+            const teams = {};
+            
+            if (standings.response && standings.response[0] && standings.response[0].standings) {
+              standings.response[0].standings.forEach(group => {
+                group.forEach(team => {
+                  teams[team.team.name] = {
+                    status: 'Active',
+                    stage: 'Group Stage',
+                    played: team.all.played,
+                    won: team.all.win,
+                    drawn: team.all.draw,
+                    lost: team.all.lose,
+                    gf: team.all.goals.for,
+                    ga: team.all.goals.against,
+                    points: team.points,
+                    lastResult: 'No games yet',
+                    nextMatch: 'TBD'
+                  };
+                });
               });
-            });
+            }
+            
+            console.log('Teams processed:', Object.keys(teams).length);
+            
+            // Process past fixtures to get last result
+            if (pastFixtures.response && Array.isArray(pastFixtures.response)) {
+              pastFixtures.response.forEach(fixture => {
+                const homeTeam = fixture.teams.home.name;
+                const awayTeam = fixture.teams.away.name;
+                const homeGoals = fixture.goals.home;
+                const awayGoals = fixture.goals.away;
+                
+                if (teams[homeTeam]) {
+                  const result = homeGoals > awayGoals ? 'W' : homeGoals < awayGoals ? 'L' : 'D';
+                  teams[homeTeam].lastResult = `${result}: ${homeGoals}-${awayGoals} vs ${awayTeam}`;
+                }
+                if (teams[awayTeam]) {
+                  const result = awayGoals > homeGoals ? 'W' : awayGoals < homeGoals ? 'L' : 'D';
+                  teams[awayTeam].lastResult = `${result}: ${awayGoals}-${homeGoals} vs ${homeTeam}`;
+                }
+              });
+            }
+            
+            // Process upcoming fixtures to get next match
+            if (upcomingFixtures.response && Array.isArray(upcomingFixtures.response)) {
+              upcomingFixtures.response.forEach(fixture => {
+                const homeTeam = fixture.teams.home.name;
+                const awayTeam = fixture.teams.away.name;
+                const fixtureDate = new Date(fixture.fixture.date);
+                const dateStr = fixtureDate.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
+                
+                if (teams[homeTeam] && teams[homeTeam].nextMatch === 'TBD') {
+                  teams[homeTeam].nextMatch = `vs ${awayTeam}, ${dateStr}`;
+                }
+                if (teams[awayTeam] && teams[awayTeam].nextMatch === 'TBD') {
+                  teams[awayTeam].nextMatch = `vs ${homeTeam}, ${dateStr}`;
+                }
+              });
+            }
+            
+            // Create the output format
+            const output = {
+              teams: teams,
+              lastUpdated: new Date().toLocaleTimeString('en-US', { 
+                hour: '2-digit', 
+                minute: '2-digit',
+                hour12: true
+              })
+            };
+            
+            fs.writeFileSync('scores.json', JSON.stringify(output, null, 2));
+            console.log('✅ scores.json generated successfully');
+            console.log('Teams in output:', Object.keys(output.teams).length);
+          } catch (e) {
+            console.error('❌ Error processing scores:', e.message);
+            process.exit(1);
           }
-          
-          // Process past fixtures to get last result
-          if (pastFixtures.response && Array.isArray(pastFixtures.response)) {
-            pastFixtures.response.forEach(fixture => {
-              const homeTeam = fixture.teams.home.name;
-              const awayTeam = fixture.teams.away.name;
-              const homeGoals = fixture.goals.home;
-              const awayGoals = fixture.goals.away;
-              
-              if (teams[homeTeam]) {
-                const result = homeGoals > awayGoals ? 'W' : homeGoals < awayGoals ? 'L' : 'D';
-                teams[homeTeam].lastResult = `${result}: ${homeGoals}-${awayGoals} vs ${awayTeam}`;
-              }
-              if (teams[awayTeam]) {
-                const result = awayGoals > homeGoals ? 'W' : awayGoals < homeGoals ? 'L' : 'D';
-                teams[awayTeam].lastResult = `${result}: ${awayGoals}-${homeGoals} vs ${homeTeam}`;
-              }
-            });
-          }
-          
-          // Process upcoming fixtures to get next match
-          if (upcomingFixtures.response && Array.isArray(upcomingFixtures.response)) {
-            upcomingFixtures.response.forEach(fixture => {
-              const homeTeam = fixture.teams.home.name;
-              const awayTeam = fixture.teams.away.name;
-              const fixtureDate = new Date(fixture.fixture.date);
-              const dateStr = fixtureDate.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
-              
-              if (teams[homeTeam] && teams[homeTeam].nextMatch === 'TBD') {
-                teams[homeTeam].nextMatch = `vs ${awayTeam}, ${dateStr}`;
-              }
-              if (teams[awayTeam] && teams[awayTeam].nextMatch === 'TBD') {
-                teams[awayTeam].nextMatch = `vs ${homeTeam}, ${dateStr}`;
-              }
-            });
-          }
-          
-          // Create the output format
-          const output = {
-            teams: teams,
-            lastUpdated: new Date().toLocaleTimeString('en-US', { 
-              hour: '2-digit', 
-              minute: '2-digit',
-              hour12: true
-            })
-          };
-          
-          fs.writeFileSync('scores.json', JSON.stringify(output, null, 2));
-          console.log('✅ scores.json generated successfully');
           EOF
 
       - name: Commit and push if changed
         run: |
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
-          git add scores.json
-          git diff --quiet && git diff --staged --quiet || (git commit -m "Update World Cup scores - $(date)" && git push)
+          
+          # Check if scores.json exists and has content
+          if [ -f scores.json ]; then
+            echo "✅ scores.json found, adding to commit..."
+            git add scores.json
+            
+            # Only commit if there are changes
+            if ! git diff --quiet --cached; then
+              git commit -m "Update World Cup scores - $(date -u +'%Y-%m-%d %H:%M:%S UTC')"
+              git push
+              echo "✅ Successfully pushed scores.json"
+            else
+              echo "ℹ️ No changes to commit"
+            fi
+          else
+            echo "❌ scores.json not found!"
+            exit 1
+          fi
