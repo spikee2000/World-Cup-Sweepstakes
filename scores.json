@@ -1,4 +1,109 @@
 {
-  "teams": {},
-  "lastUpdated": "07:33 PM"
+  "teams": {
+    "Portugal": {
+      "status": "Active",
+      "stage": "Group Stage",
+      "played": 0,
+      "won": 0,
+      "drawn": 0,
+      "lost": 0,
+      "gf": 0,
+      "ga": 0,
+      "points": 0,
+      "lastResult": "No games yet",
+      "nextMatch": "vs DR Congo, 17 Jun"
+    },
+    "England": {
+      "status": "Active",
+      "stage": "Group Stage",
+      "played": 0,
+      "won": 0,
+      "drawn": 0,
+      "lost": 0,
+      "gf": 0,
+      "ga": 0,
+      "points": 0,
+      "lastResult": "No games yet",
+      "nextMatch": "vs Croatia, 17 Jun"
+    },
+    "Brazil": {
+      "status": "Active",
+      "stage": "Group Stage",
+      "played": 0,
+      "won": 0,
+      "drawn": 0,
+      "lost": 0,
+      "gf": 0,
+      "ga": 0,
+      "points": 0,
+      "lastResult": "No games yet",
+      "nextMatch": "vs Morocco, 13 Jun"
+    },
+    "Spain": {
+      "status": "Active",
+      "stage": "Group Stage",
+      "played": 0,
+      "won": 0,
+      "drawn": 0,
+      "lost": 0,
+      "gf": 0,
+      "ga": 0,
+      "points": 0,
+      "lastResult": "No games yet",
+      "nextMatch": "vs Cape Verde, 15 Jun"
+    },
+    "France": {
+      "status": "Active",
+      "stage": "Group Stage",
+      "played": 0,
+      "won": 0,
+      "drawn": 0,
+      "lost": 0,
+      "gf": 0,
+      "ga": 0,
+      "points": 0,
+      "lastResult": "No games yet",
+      "nextMatch": "vs Senegal, 16 Jun"
+    },
+    "Netherlands": {
+      "status": "Active",
+      "stage": "Group Stage",
+      "played": 0,
+      "won": 0,
+      "drawn": 0,
+      "lost": 0,
+      "gf": 0,
+      "ga": 0,
+      "points": 0,
+      "lastResult": "No games yet",
+      "nextMatch": "vs Japan, 14 Jun"
+    },
+    "Morocco": {
+      "status": "Active",
+      "stage": "Group Stage",
+      "played": 0,
+      "won": 0,
+      "drawn": 0,
+      "lost": 0,
+      "gf": 0,
+      "ga": 0,
+      "points": 0,
+      "lastResult": "No games yet",
+      "nextMatch": "vs Brazil, 13 Jun"
+    },
+    "Argentina": {
+      "status": "Active",
+      "stage": "Group Stage",
+      "played": 0,
+      "won": 0,
+      "drawn": 0,
+      "lost": 0,
+      "gf": 0,
+      "ga": 0,
+      "points": 0,
+      "lastResult": "No games yet",
+      "nextMatch": "vs Algeria, 16 Jun"
+    }
+  },
+  "lastUpdated": "07:36 PM"
 }
