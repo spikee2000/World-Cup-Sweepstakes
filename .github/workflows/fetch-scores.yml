@@ -19,13 +19,16 @@ jobs:
         env:
           API_KEY: ${{ secrets.APIFOOTBALL_KEY }}
         run: |
-          echo "Fetching standings..."
+          echo "Testing API connection..."
           curl -s \
             -H "x-apisports-key: ${API_KEY}" \
             "https://v3.football.api-sports.io/standings?league=1&season=2026" \
             -o raw_standings.json
           
-          echo "Fetching past fixtures..."
+          echo "Raw standings response:"
+          head -100 raw_standings.json
+          
+          echo -e "\n\nFetching past fixtures..."
           curl -s \
             -H "x-apisports-key: ${API_KEY}" \
             "https://v3.football.api-sports.io/fixtures?league=1&season=2026&last=20" \
@@ -52,17 +55,29 @@ jobs:
             let upcomingFixtures = { response: [] };
             
             if (fs.existsSync('raw_standings.json')) {
-              standings = JSON.parse(fs.readFileSync('raw_standings.json', 'utf8'));
+              const standingsText = fs.readFileSync('raw_standings.json', 'utf8');
+              console.log('Standings file size:', standingsText.length);
+              
+              if (standingsText.length > 0) {
+                standings = JSON.parse(standingsText);
+              }
               console.log('Standings loaded:', standings.response ? standings.response.length : 0, 'groups');
+              console.log('API response errors:', standings.errors || 'none');
             }
             
             if (fs.existsSync('raw_past.json')) {
-              pastFixtures = JSON.parse(fs.readFileSync('raw_past.json', 'utf8'));
+              const pastText = fs.readFileSync('raw_past.json', 'utf8');
+              if (pastText.length > 0) {
+                pastFixtures = JSON.parse(pastText);
+              }
               console.log('Past fixtures loaded:', pastFixtures.response ? pastFixtures.response.length : 0, 'matches');
             }
             
             if (fs.existsSync('raw_upcoming.json')) {
-              upcomingFixtures = JSON.parse(fs.readFileSync('raw_upcoming.json', 'utf8'));
+              const upcomingText = fs.readFileSync('raw_upcoming.json', 'utf8');
+              if (upcomingText.length > 0) {
+                upcomingFixtures = JSON.parse(upcomingText);
+              }
               console.log('Upcoming fixtures loaded:', upcomingFixtures.response ? upcomingFixtures.response.length : 0, 'matches');
             }
             
@@ -70,6 +85,7 @@ jobs:
             const teams = {};
             
             if (standings.response && standings.response[0] && standings.response[0].standings) {
+              console.log('Processing standings data...');
               standings.response[0].standings.forEach(group => {
                 group.forEach(team => {
                   teams[team.team.name] = {
@@ -87,6 +103,17 @@ jobs:
                   };
                 });
               });
+            } else {
+              console.log('⚠️ No standings data found. Using fallback data.');
+              // Fallback: mock data for testing
+              teams['Portugal'] = { status: 'Active', stage: 'Group Stage', played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, points: 0, lastResult: 'No games yet', nextMatch: 'vs DR Congo, 17 Jun' };
+              teams['England'] = { status: 'Active', stage: 'Group Stage', played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, points: 0, lastResult: 'No games yet', nextMatch: 'vs Croatia, 17 Jun' };
+              teams['Brazil'] = { status: 'Active', stage: 'Group Stage', played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, points: 0, lastResult: 'No games yet', nextMatch: 'vs Morocco, 13 Jun' };
+              teams['Spain'] = { status: 'Active', stage: 'Group Stage', played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, points: 0, lastResult: 'No games yet', nextMatch: 'vs Cape Verde, 15 Jun' };
+              teams['France'] = { status: 'Active', stage: 'Group Stage', played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, points: 0, lastResult: 'No games yet', nextMatch: 'vs Senegal, 16 Jun' };
+              teams['Netherlands'] = { status: 'Active', stage: 'Group Stage', played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, points: 0, lastResult: 'No games yet', nextMatch: 'vs Japan, 14 Jun' };
+              teams['Morocco'] = { status: 'Active', stage: 'Group Stage', played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, points: 0, lastResult: 'No games yet', nextMatch: 'vs Brazil, 13 Jun' };
+              teams['Argentina'] = { status: 'Active', stage: 'Group Stage', played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, points: 0, lastResult: 'No games yet', nextMatch: 'vs Algeria, 16 Jun' };
             }
             
             console.log('Teams processed:', Object.keys(teams).length);
