@@ -1,0 +1,199 @@
+name: Fetch World Cup Scores
+
+on:
+  schedule:
+    - cron: '*/5 * * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+# Stop overlapping runs (scheduled + manual) from racing to push to main.
+# Queue them instead so each run pushes on top of the previous one.
+concurrency:
+  group: world-cup-scores
+  cancel-in-progress: false
+
+jobs:
+  fetch-scores:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Fetch World Cup data from football-data.org
+        env:
+          FOOTBALL_DATA_TOKEN: ${{ secrets.FOOTBALL_DATA_TOKEN }}
+        run: |
+          BASE="https://api.football-data.org/v4/competitions/WC"
+
+          echo "Fetching group standings..."
+          curl -s \
+            -H "X-Auth-Token: ${FOOTBALL_DATA_TOKEN}" \
+            "${BASE}/standings" \
+            -o raw_standings.json
+
+          echo "Standings response (first 60 lines):"
+          head -60 raw_standings.json
+
+          # Stay well under the free tier's 10 requests/minute limit
+          sleep 2
+
+          echo "Fetching all matches (group + knockout)..."
+          curl -s \
+            -H "X-Auth-Token: ${FOOTBALL_DATA_TOKEN}" \
+            "${BASE}/matches" \
+            -o raw_matches.json
+
+          echo "Files downloaded:"
+          ls -lh raw_standings.json raw_matches.json
+
+      - name: Process scores with Node.js
+        run: |
+          node << 'EOF'
+          const fs = require('fs');
+
+          // Optional: map football-data.org team names to the names used in
+          // index.html (the SWEEPSTAKE array). The 8 nations in this sweepstake
+          // match directly, so this is just a safety net you can extend if a
+          // name ever differs (e.g. "Korea Republic" -> "South Korea").
+          const NAME_ALIASES = {
+            // "Korea Republic": "South Korea",
+            // "United States": "USA",
+          };
+          const canon = n => NAME_ALIASES[n] || n;
+
+          function readJson(path) {
+            if (!fs.existsSync(path)) return null;
+            const text = fs.readFileSync(path, 'utf8');
+            if (!text.trim().length) return null;
+            return JSON.parse(text);
+          }
+
+          try {
+            const standings = readJson('raw_standings.json');
+            const matchesData = readJson('raw_matches.json');
+
+            // football-data.org reports problems as { message, errorCode }
+            if (standings && standings.message && !standings.standings) {
+              console.log('API standings message:', standings.message);
+            }
+            if (matchesData && matchesData.message && !matchesData.matches) {
+              console.log('API matches message:', matchesData.message);
+            }
+
+            const teams = {};
+
+            // ---- Standings: one table per group (World Cup is a LEAGUE_CUP) ----
+            if (standings && Array.isArray(standings.standings)) {
+              standings.standings.forEach(block => {
+                if (block.type && block.type !== 'TOTAL') return; // skip HOME/AWAY splits
+                (block.table || []).forEach(row => {
+                  teams[canon(row.team.name)] = {
+                    status: 'Active',
+                    stage: 'Group Stage',
+                    played: row.playedGames || 0,
+                    won: row.won || 0,
+                    drawn: row.draw || 0,
+                    lost: row.lost || 0,
+                    gf: row.goalsFor || 0,
+                    ga: row.goalsAgainst || 0,
+                    points: row.points || 0,
+                    lastResult: 'No games yet',
+                    nextMatch: 'TBD',
+                  };
+                });
+              });
+            }
+            console.log('Teams from standings:', Object.keys(teams).length);
+
+            // ---- Matches: a single call covers group + knockout fixtures ----
+            const matches = (matchesData && Array.isArray(matchesData.matches)) ? matchesData.matches : [];
+            const fmt = d => new Date(d).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
+            // v4 uses fullTime.home/away; fall back to the older homeTeam/awayTeam keys just in case
+            const goals = ft => [ft.home != null ? ft.home : ft.homeTeam, ft.away != null ? ft.away : ft.awayTeam];
+
+            // Latest finished result per team (ascending sort => later games win)
+            matches
+              .filter(m => m.status === 'FINISHED' && m.homeTeam && m.awayTeam)
+              .sort((a, b) => new Date(a.utcDate) - new Date(b.utcDate))
+              .forEach(m => {
+                const home = canon(m.homeTeam.name), away = canon(m.awayTeam.name);
+                const [hg, ag] = goals(m.score.fullTime);
+                if (hg == null || ag == null) return;
+                if (teams[home]) teams[home].lastResult = `${hg > ag ? 'W' : hg < ag ? 'L' : 'D'}: ${hg}-${ag} vs ${away}`;
+                if (teams[away]) teams[away].lastResult = `${ag > hg ? 'W' : ag < hg ? 'L' : 'D'}: ${ag}-${hg} vs ${home}`;
+              });
+
+            // Earliest upcoming or in-progress match per team
+            const UPCOMING = new Set(['SCHEDULED', 'TIMED', 'IN_PLAY', 'PAUSED']);
+            matches
+              .filter(m => UPCOMING.has(m.status) && m.homeTeam && m.awayTeam)
+              .sort((a, b) => new Date(a.utcDate) - new Date(b.utcDate))
+              .forEach(m => {
+                const home = canon(m.homeTeam.name), away = canon(m.awayTeam.name);
+                const live = m.status === 'IN_PLAY' || m.status === 'PAUSED';
+                if (teams[home] && teams[home].nextMatch === 'TBD')
+                  teams[home].nextMatch = live ? `vs ${away} (LIVE)` : `vs ${away}, ${fmt(m.utcDate)}`;
+                if (teams[away] && teams[away].nextMatch === 'TBD')
+                  teams[away].nextMatch = live ? `vs ${home} (LIVE)` : `vs ${home}, ${fmt(m.utcDate)}`;
+              });
+
+            // Safety: never overwrite a good scores.json with an empty one
+            // (e.g. on a transient API error or rate-limit hit)
+            if (Object.keys(teams).length === 0) {
+              console.log('No team data this run, keeping existing scores.json.');
+              process.exit(0);
+            }
+
+            const output = {
+              teams,
+              lastUpdated: new Date().toLocaleTimeString('en-GB', {
+                hour: '2-digit',
+                minute: '2-digit',
+                hour12: false,
+              }),
+            };
+
+            fs.writeFileSync('scores.json', JSON.stringify(output, null, 2));
+            console.log('scores.json generated with', Object.keys(teams).length, 'teams');
+          } catch (e) {
+            console.error('Error processing scores:', e.message);
+            process.exit(1);
+          }
+          EOF
+
+      - name: Commit and push if changed
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+
+          if [ ! -f scores.json ]; then
+            echo "scores.json not found!"
+            exit 1
+          fi
+
+          git add scores.json
+          if git diff --quiet --cached; then
+            echo "No changes to commit"
+            exit 0
+          fi
+
+          git commit -m "Update World Cup scores - $(date -u +'%Y-%m-%d %H:%M:%S UTC')"
+
+          # The remote may have moved on if another run pushed first. Rebase our
+          # commit onto the latest main, keeping our freshly generated
+          # scores.json on any conflict (-X theirs favours the replayed commit),
+          # then retry the push a few times before giving up.
+          for attempt in 1 2 3 4 5; do
+            git pull --rebase -X theirs origin main || true
+            if git push; then
+              echo "Pushed updated scores.json (attempt $attempt)"
+              exit 0
+            fi
+            echo "Push rejected, syncing and retrying (attempt $attempt)..."
+            sleep $((RANDOM % 4 + 2))
+          done
+
+          echo "Could not push after several attempts"
+          exit 1
