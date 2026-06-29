@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>World Cup 2026 - Family Sweepstakes</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      min-height: 100vh;
+      background: linear-gradient(160deg, #0a0a1a 0%, #0d1b2a 50%, #0a1628 100%);
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      color: #fff;
+      padding: 24px 16px 40px;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 32px;
+    }
+
+    header .ball { font-size: 2.5rem; margin-bottom: 4px; }
+
+    header h1 {
+      font-size: clamp(1.5rem, 5vw, 2.2rem);
+      font-weight: 800;
+      background: linear-gradient(90deg, #f59e0b, #fcd34d, #f59e0b);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      letter-spacing: -0.02em;
+    }
+
+    header .subtitle {
+      color: rgba(255,255,255,0.4);
+      font-size: 0.85rem;
+      margin-top: 4px;
+      letter-spacing: 0.15em;
+    }
+
+    #refresh-btn {
+      margin-top: 14px;
+      background: rgba(245,158,11,0.15);
+      border: 1px solid rgba(245,158,11,0.4);
+      color: #f59e0b;
+      border-radius: 20px;
+      padding: 8px 20px;
+      cursor: pointer;
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      transition: all 0.2s;
+    }
+    #refresh-btn:hover { background: rgba(245,158,11,0.25); }
+    #refresh-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    #last-updated {
+      color: rgba(255,255,255,0.25);
+      font-size: 0.68rem;
+      margin-top: 8px;
+      min-height: 1em;
+    }
+
+    #auto-refresh-note {
+      color: rgba(255,255,255,0.2);
+      font-size: 0.62rem;
+      margin-top: 2px;
+    }
+
+    #error-msg {
+      display: none;
+      margin-top: 10px;
+      background: rgba(239,68,68,0.15);
+      border: 1px solid rgba(239,68,68,0.3);
+      border-radius: 8px;
+      padding: 8px 16px;
+      font-size: 0.75rem;
+      color: #fca5a5;
+    }
+
+    #leaderboard {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      margin-bottom: 28px;
+      padding-bottom: 8px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .lb-pill {
+      background: rgba(255,255,255,0.05);
+      border-radius: 20px;
+      padding: 5px 12px;
+      font-size: 0.75rem;
+      border: 1px solid rgba(255,255,255,0.1);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      white-space: nowrap;
+    }
+    .lb-pill .lb-pts { color: #f59e0b; font-weight: 700; }
+    .lb-pill .lb-rank { opacity: 0.7; }
+
+    #grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+      gap: 16px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .card {
+      border-radius: 16px;
+      padding: 20px;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.2s;
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+    .card:hover { transform: translateY(-3px); }
+    .card.eliminated { opacity: 0.6; }
+
+    .card-rank {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      font-size: 1.3rem;
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+    .card-flag { font-size: 2.4rem; line-height: 1; }
+    .card-owner {
+      color: rgba(255,255,255,0.5);
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+    .card-team {
+      color: #fff;
+      font-size: 1.15rem;
+      font-weight: 700;
+      line-height: 1.2;
+    }
+    .card-group {
+      color: rgba(255,255,255,0.45);
+      font-size: 0.68rem;
+      margin-top: 2px;
+    }
+
+    .stage-pill {
+      display: inline-block;
+      background: rgba(255,255,255,0.15);
+      color: #fff;
+      border-radius: 20px;
+      padding: 3px 10px;
+      font-size: 0.68rem;
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+    .stage-pill.champion { background: #f59e0b; color: #000; }
+    .stage-pill.eliminated-pill { background: #374151; }
+
+    .stats-row {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 14px;
+      flex-wrap: wrap;
+    }
+
+    .stat-box {
+      text-align: center;
+      padding: 6px 10px;
+      background: rgba(255,255,255,0.05);
+      border-radius: 8px;
+      min-width: 38px;
+    }
+    .stat-box.highlight { background: rgba(255,255,255,0.12); }
+    .stat-val {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #fff;
+    }
+    .stat-lbl {
+      font-size: 0.62rem;
+      color: rgba(255,255,255,0.55);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .last-result {
+      margin-bottom: 10px;
+      font-size: 0.75rem;
+      color: rgba(255,255,255,0.7);
+      display: flex;
+      align-items: center;
+    }
+
+    .result-badge {
+      border-radius: 4px;
+      padding: 2px 7px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      margin-right: 6px;
+      color: #fff;
+    }
+    .result-badge.W { background: #22c55e; }
+    .result-badge.D { background: #f59e0b; }
+    .result-badge.L { background: #ef4444; }
+
+    .next-match {
+      background: rgba(0,0,0,0.25);
+      border-radius: 8px;
+      padding: 8px 10px;
+      font-size: 0.72rem;
+      color: rgba(255,255,255,0.7);
+    }
+    .next-label {
+      color: rgba(255,255,255,0.4);
+      margin-right: 6px;
+    }
+
+    .schedule-item {
+      font-size: 0.68rem;
+      color: rgba(255,255,255,0.45);
+      margin-bottom: 3px;
+    }
+
+    .elim-label {
+      position: absolute;
+      bottom: 10px;
+      right: 12px;
+      font-size: 0.65rem;
+      color: rgba(255,255,255,0.3);
+      font-weight: 600;
+      letter-spacing: 0.1em;
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 32px;
+      color: rgba(255,255,255,0.2);
+      font-size: 0.68rem;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="ball">&#x26BD;</div>
+  <h1>World Cup 2026</h1>
+  <div class="subtitle">FAMILY SWEEPSTAKES</div>
+  <br>
+  <button id="refresh-btn" onclick="loadData()">&#x21BB; Refresh Live Data</button>
+  <div id="last-updated"></div>
+  <div id="auto-refresh-note">Scores updated every 5 min via GitHub Action</div>
+  <div id="error-msg"></div>
+</header>
+
+<div id="leaderboard"></div>
+<div id="grid"></div>
+
+<footer>&#x1F3C6; World Cup 2026 &middot; USA, Canada &amp; Mexico &middot; Jun 11 &ndash; Jul 19 &middot; Data: football-data.org</footer>
+
+<script>
+// ---------------------------------------------------------------
+// SWEEPSTAKE ENTRIES
+// ---------------------------------------------------------------
+const SWEEPSTAKE = [
+  { name: "Jacky",  team: "Portugal",    flag: "\uD83C\uDDF5\uD83C\uDDF9", group: "K", color: "#006B3F" },
+  { name: "Yasmin", team: "England",     flag: "\uD83C\uDDEC\uD83C\uDDE7", group: "L", color: "#CF091B" },
+  { name: "Trevor", team: "Brazil",      flag: "\uD83C\uDDE7\uD83C\uDDF7", group: "C", color: "#009C3B" },
+  { name: "Louise", team: "Spain",       flag: "\uD83C\uDDEA\uD83C\uDDF8", group: "H", color: "#AA151B" },
+  { name: "Harley", team: "France",      flag: "\uD83C\uDDEB\uD83C\uDDF7", group: "I", color: "#002395" },
+  { name: "Finley", team: "Netherlands", flag: "\uD83C\uDDF3\uD83C\uDDF1", group: "F", color: "#FF4F00" },
+  { name: "Leon",   team: "Morocco",     flag: "\uD83C\uDDF2\uD83C\uDDE6", group: "C", color: "#C1272D" },
+  { name: "Calum",  team: "Argentina",   flag: "\uD83C\uDDE6\uD83C\uDDF7", group: "J", color: "#74ACDF" },
+];
+
+// ---------------------------------------------------------------
+// MANUAL STAGE OVERRIDES
+// Once the group stage ends, the free league-table endpoint stops
+// being a reliable source for knockout progress / eliminations.
+// Update this object by hand as results come in, e.g.:
+//   "Morocco": { stage: "Eliminated", status: "Eliminated" },
+//   "Argentina": { stage: "Champions", status: "Active" }
+// Valid stage values: "Group Stage", "Round of 32", "Round of 16",
+// "Quarter-Finals", "Semi-Finals", "Final", "Champions", "Eliminated"
+// ---------------------------------------------------------------
+const STAGE_OVERRIDES = {
+  // "Morocco": { stage: "Eliminated", status: "Eliminated" },
+};
+
+// ---------------------------------------------------------------
+// STATIC GROUP-STAGE FIXTURES (fallback)
+// Used whenever live "next match" data can't be fetched, or hasn't
+// been published yet for a future fixture. Dates are US Eastern.
+// Source: official 2026 World Cup match schedule.
+// ---------------------------------------------------------------
+const SCHEDULES = {
+  Portugal:    [["2026-06-17","DR Congo"],["2026-06-23","Uzbekistan"],["2026-06-27","Colombia"]],
+  England:     [["2026-06-17","Croatia"],["2026-06-23","Ghana"],["2026-06-27","Panama"]],
+  Brazil:      [["2026-06-13","Morocco"],["2026-06-24","Scotland"],["2026-06-28","Haiti"]],
+  Spain:       [["2026-06-15","Cape Verde"],["2026-06-21","Saudi Arabia"],["2026-06-26","Uruguay"]],
+  France:      [["2026-06-16","Senegal"],["2026-06-22","Iraq"],["2026-06-26","Norway"]],
+  Netherlands: [["2026-06-14","Japan"],["2026-06-20","Sweden"],["2026-06-25","Tunisia"]],
+  Morocco:     [["2026-06-13","Brazil"],["2026-06-24","Haiti"],["2026-06-28","Scotland"]],
+  Argentina:   [["2026-06-16","Algeria"],["2026-06-22","Austria"],["2026-06-27","Jordan"]],
+};
+
+function formatFixtureDate(dateStr) {
+  return new Date(dateStr + 'T12:00:00').toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
+}
+
+// Returns the next fixture (date + opponent) that hasn't happened yet,
+// or null if all three group games are in the past.
+function getNextScheduledFixture(teamName) {
+  const fixtures = SCHEDULES[teamName] || [];
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  return fixtures.find(f => new Date(f[0] + 'T23:59:59') >= today) || null;
+}
+
+// Returns all remaining (not-yet-played) fixtures for a team.
+function getRemainingFixtures(teamName) {
+  const fixtures = SCHEDULES[teamName] || [];
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  return fixtures.filter(f => new Date(f[0] + 'T23:59:59') >= today);
+}
+
+// ---------------------------------------------------------------
+// DATA SOURCE
+// scores.json is written by the GitHub Action (.github/workflows/
+// fetch-scores.yml) every 5 minutes. This page just reads it.
+// No API keys, no CORS issues, no rate limits.
+// ---------------------------------------------------------------
+const REFRESH_INTERVAL_MS = 5 * 60 * 1000; // re-fetch scores.json every 5 min
+
+let liveData = {};
+let refreshTimer = null;
+
+async function loadData() {
+  const btn = document.getElementById('refresh-btn');
+  const errEl = document.getElementById('error-msg');
+  btn.disabled = true;
+  btn.textContent = '\u27F3 Refreshing...';
+  errEl.style.display = 'none';
+
+  try {
+    // Cache-bust so the browser always gets the latest version
+    const res = await fetch('scores.json?t=' + Date.now());
+    if (!res.ok) throw new Error('scores.json not found (HTTP ' + res.status + ')');
+    const data = await res.json();
+
+    if (!data.teams) throw new Error('Unexpected scores.json format');
+
+    // Merge in STAGE_OVERRIDES on top of what the Action wrote
+    const newLiveData = {};
+    SWEEPSTAKE.forEach(({ team }) => {
+      const row = data.teams[team] || {};
+      const override = STAGE_OVERRIDES[team];
+      newLiveData[team] = {
+        status:     override ? override.status : (row.status || 'Active'),
+        stage:      override ? override.stage  : (row.stage  || 'Group Stage'),
+        played:     row.played  || 0,
+        won:        row.won     || 0,
+        drawn:      row.drawn   || 0,
+        lost:       row.lost    || 0,
+        gf:         row.gf      || 0,
+        ga:         row.ga      || 0,
+        points:     row.points  || 0,
+        lastResult: row.lastResult || 'No games yet',
+        nextMatch:  override && override.status === 'Eliminated'
+                      ? 'Eliminated'
+                      : (row.nextMatch || 'TBD'),
+      };
+    });
+
+    liveData = newLiveData;
+    const updatedAt = data.lastUpdated ? `scores updated ${data.lastUpdated}` : new Date().toLocaleTimeString();
+    document.getElementById('last-updated').textContent = 'Last updated: ' + updatedAt;
+
+  } catch (e) {
+    errEl.textContent = '\u26A0 ' + e.message + ' — falling back to scheduled fixtures.';
+    errEl.style.display = 'inline-block';
+  }
+
+  btn.disabled = false;
+  btn.textContent = '\u21BB Refresh';
+  render();
+}
+
+function sortedEntries() {
+  return [...SWEEPSTAKE].sort((a, b) => {
+    const sa = liveData[a.team];
+    const sb = liveData[b.team];
+    if (!sa && !sb) return 0;
+    if (!sa) return 1;
+    if (!sb) return -1;
+    if (sa.stage === 'Champions') return -1;
+    if (sb.stage === 'Champions') return 1;
+    if (sa.status === 'Eliminated' && sb.status !== 'Eliminated') return 1;
+    if (sb.status === 'Eliminated' && sa.status !== 'Eliminated') return -1;
+    return (sb.points || 0) - (sa.points || 0);
+  });
+}
+
+function render() {
+  const sorted = sortedEntries();
+  renderLeaderboard(sorted);
+  renderGrid(sorted);
+}
+
+function renderLeaderboard(sorted) {
+  const lb = document.getElementById('leaderboard');
+  if (!Object.keys(liveData).length) { lb.innerHTML = ''; return; }
+  lb.innerHTML = sorted.map((e, i) => {
+    const s = liveData[e.team];
+    const borderColor = i < 3 ? e.color + '66' : 'rgba(255,255,255,0.1)';
+    return `<div class="lb-pill" style="border-color:${borderColor}">
+      <span class="lb-rank">#${i + 1}</span>
+      <span>${e.flag}</span>
+      <span style="font-weight:600">${e.name}</span>
+      ${s ? `<span class="lb-pts">${s.points || 0}pts</span>` : ''}
+    </div>`;
+  }).join('');
+}
+
+function renderGrid(sorted) {
+  const grid = document.getElementById('grid');
+  grid.innerHTML = sorted.map((e, i) => cardHTML(e, i + 1)).join('');
+}
+
+function cardHTML(e, rank) {
+  const s = liveData[e.team];
+  const isElim = s && s.status === 'Eliminated';
+  const isChamp = s && s.stage === 'Champions';
+
+  const bg = isChamp
+    ? 'linear-gradient(135deg,#7c5c00,#c8a000)'
+    : isElim
+    ? 'linear-gradient(135deg,#1a1a2e,#16213e)'
+    : `linear-gradient(135deg,${e.color}cc,${e.color}55)`;
+
+  const borderColor = isElim ? 'rgba(255,255,255,0.08)' : e.color + '88';
+
+  let rankBadge = '';
+  if (rank <= 3 && !isElim) {
+    rankBadge = `<div class="card-rank">${rank === 1 ? '&#x1F947;' : rank === 2 ? '&#x1F948;' : '&#x1F949;'}</div>`;
+  }
+
+  const stageTxt = s ? s.stage : 'Group Stage';
+  let stagePill = `<span class="stage-pill${isChamp ? ' champion' : isElim ? ' eliminated-pill' : ''}">${stageTxt}</span>`;
+
+  let statsRow = '';
+  if (s) {
+    statsRow = `<div class="stats-row">
+      ${statBox('Pts', s.points, true)}
+      ${statBox('W', s.won)}
+      ${statBox('D', s.drawn)}
+      ${statBox('L', s.lost)}
+      ${statBox('GF', s.gf)}
+      ${statBox('GA', s.ga)}
+    </div>`;
+  }
+
+  let lastResult = '';
+  if (s && s.lastResult && s.lastResult !== 'No games yet') {
+    const letter = s.lastResult[0];
+    const rest = s.lastResult.slice(2);
+    lastResult = `<div class="last-result">
+      <span class="result-badge ${letter}">${letter}</span>
+      ${rest}
+    </div>`;
+  }
+
+  let nextMatch = '';
+  if (!isElim) {
+    if (s && s.nextMatch && s.nextMatch !== 'Eliminated' && s.nextMatch !== 'TBD') {
+      // Live data has a confirmed next match
+      nextMatch = `<div class="next-match"><span class="next-label">NEXT</span>${s.nextMatch}</div>`;
+    } else {
+      // Fall back to the static group-stage schedule
+      const fixture = getNextScheduledFixture(e.team);
+      if (fixture) {
+        const dateStr = formatFixtureDate(fixture[0]);
+        nextMatch = `<div class="next-match"><span class="next-label">NEXT (scheduled)</span>vs ${fixture[1]}, ${dateStr}</div>`;
+      }
+    }
+  }
+
+  // If we have no live data at all yet, show the remaining group fixtures
+  let schedule = '';
+  if (!s) {
+    const remaining = getRemainingFixtures(e.team);
+    schedule = remaining.slice(0, 3).map(f =>
+      `<div class="schedule-item">&#x1F4C5; ${formatFixtureDate(f[0])} vs ${f[1]}</div>`
+    ).join('');
+  }
+
+  let elimLabel = isElim ? '<div class="elim-label">ELIMINATED</div>' : '';
+
+  return `<div class="card${isElim ? ' eliminated' : ''}" style="background:${bg};border-color:${borderColor}">
+    ${rankBadge}
+    <div class="card-header">
+      <div class="card-flag">${e.flag}</div>
+      <div>
+        <div class="card-owner">${e.name}</div>
+        <div class="card-team">${e.team}</div>
+        <div class="card-group">Group ${e.group}</div>
+      </div>
+    </div>
+    <div>${stagePill}</div>
+    ${statsRow}
+    ${lastResult}
+    ${nextMatch}
+    ${schedule}
+    ${elimLabel}
+  </div>`;
+}
+
+function statBox(label, value, highlight) {
+  return `<div class="stat-box${highlight ? ' highlight' : ''}">
+    <div class="stat-val">${value !== undefined && value !== null ? value : '&ndash;'}</div>
+    <div class="stat-lbl">${label}</div>
+  </div>`;
+}
+
+function startAutoRefresh() {
+  if (refreshTimer) clearInterval(refreshTimer);
+  refreshTimer = setInterval(loadData, REFRESH_INTERVAL_MS);
+}
+
+// Initial load + start polling
+loadData();
+startAutoRefresh();
+</script>
+</body>
+</html>
