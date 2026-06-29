@@ -193,7 +193,7 @@
       "ga": 4,
       "points": 4,
       "lastResult": "D: 0-0 vs Australia",
-      "nextMatch": "vs Germany, 29 Jun"
+      "nextMatch": "vs Germany (LIVE)"
     },
     "Turkey": {
       "status": "Active",
@@ -219,7 +219,7 @@
       "ga": 4,
       "points": 6,
       "lastResult": "L: 1-2 vs Ecuador",
-      "nextMatch": "vs Paraguay, 29 Jun"
+      "nextMatch": "vs Paraguay (LIVE)"
     },
     "Ivory Coast": {
       "status": "Active",
@@ -625,5 +625,5 @@
       "nextMatch": "TBD"
     }
   },
-  "lastUpdated": "19:14"
+  "lastUpdated": "20:55"
 }
