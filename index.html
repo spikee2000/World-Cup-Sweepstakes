@@ -166,7 +166,6 @@
     }
     .stage-pill.champion { background: #f59e0b; color: #000; }
     .stage-pill.eliminated-pill { background: #374151; }
-    .stage-pill.pending-pill { background: #92400e; }
 
     .stats-row {
       display: flex;
@@ -286,15 +285,11 @@ const SWEEPSTAKE = [
 
 // ---------------------------------------------------------------
 // MANUAL STAGE OVERRIDES
-// This is now the SOURCE OF TRUTH for elimination / advancement.
-// scores.json only carries raw group-stage stats (W/D/L/points) —
-// it has no concept of "did this team progress to the knockouts",
-// because that depends on comparing against teams outside this
-// sweepstake too. Once a team's group stage finishes (or they lose
-// a knockout match), update this object by hand, e.g.:
+// Once the group stage ends, the free league-table endpoint stops
+// being a reliable source for knockout progress / eliminations.
+// Update this object by hand as results come in, e.g.:
 //   "Morocco": { stage: "Eliminated", status: "Eliminated" },
-//   "Argentina": { stage: "Round of 16", status: "Active" },
-//   "France": { stage: "Champions", status: "Active" }
+//   "Argentina": { stage: "Champions", status: "Active" }
 // Valid stage values: "Group Stage", "Round of 32", "Round of 16",
 // "Quarter-Finals", "Semi-Finals", "Final", "Champions", "Eliminated"
 // ---------------------------------------------------------------
@@ -366,9 +361,7 @@ async function loadData() {
 
     if (!data.teams) throw new Error('Unexpected scores.json format');
 
-    // Merge in STAGE_OVERRIDES on top of what the Action wrote.
-    // STAGE_OVERRIDES always wins — it's the only thing that can
-    // mark a team Eliminated, Champions, or in a knockout round.
+    // Merge in STAGE_OVERRIDES on top of what the Action wrote
     const newLiveData = {};
     SWEEPSTAKE.forEach(({ team }) => {
       const row = data.teams[team] || {};
@@ -402,14 +395,6 @@ async function loadData() {
   btn.disabled = false;
   btn.textContent = '\u21BB Refresh';
   render();
-}
-
-// True once a team's three group fixtures have all kicked off, so we know
-// "Group Stage" is stale info if nobody has set a STAGE_OVERRIDE yet.
-function isStageUnconfirmed(team, s) {
-  const groupDone = getRemainingFixtures(team).length === 0;
-  const stillFlaggedAsGroup = !s || s.stage === 'Group Stage';
-  return groupDone && stillFlaggedAsGroup && !STAGE_OVERRIDES[team];
 }
 
 function sortedEntries() {
@@ -457,7 +442,6 @@ function cardHTML(e, rank) {
   const s = liveData[e.team];
   const isElim = s && s.status === 'Eliminated';
   const isChamp = s && s.stage === 'Champions';
-  const unconfirmed = !isElim && !isChamp && isStageUnconfirmed(e.team, s);
 
   const bg = isChamp
     ? 'linear-gradient(135deg,#7c5c00,#c8a000)'
@@ -472,12 +456,8 @@ function cardHTML(e, rank) {
     rankBadge = `<div class="card-rank">${rank === 1 ? '&#x1F947;' : rank === 2 ? '&#x1F948;' : '&#x1F949;'}</div>`;
   }
 
-  // Don't keep claiming "Group Stage" once all group fixtures are in the
-  // past — that's actively misleading. Flag it as pending a manual update
-  // (set via STAGE_OVERRIDES) instead.
-  const stageTxt = unconfirmed ? 'Result Pending Update' : (s ? s.stage : 'Group Stage');
-  const pillClass = isChamp ? ' champion' : (isElim || unconfirmed) ? ' eliminated-pill' : '';
-  let stagePill = `<span class="stage-pill${pillClass}">${stageTxt}</span>`;
+  const stageTxt = s ? s.stage : 'Group Stage';
+  let stagePill = `<span class="stage-pill${isChamp ? ' champion' : isElim ? ' eliminated-pill' : ''}">${stageTxt}</span>`;
 
   let statsRow = '';
   if (s) {
@@ -506,9 +486,8 @@ function cardHTML(e, rank) {
     if (s && s.nextMatch && s.nextMatch !== 'Eliminated' && s.nextMatch !== 'TBD') {
       // Live data has a confirmed next match
       nextMatch = `<div class="next-match"><span class="next-label">NEXT</span>${s.nextMatch}</div>`;
-    } else if (!unconfirmed) {
-      // Fall back to the static group-stage schedule (only while group
-      // stage is genuinely still in progress)
+    } else {
+      // Fall back to the static group-stage schedule
       const fixture = getNextScheduledFixture(e.team);
       if (fixture) {
         const dateStr = formatFixtureDate(fixture[0]);
@@ -526,11 +505,9 @@ function cardHTML(e, rank) {
     ).join('');
   }
 
-  let elimLabel = isElim ? '<div class="elim-label">ELIMINATED</div>'
-                 : unconfirmed ? '<div class="elim-label">NEEDS UPDATE</div>'
-                 : '';
+  let elimLabel = isElim ? '<div class="elim-label">ELIMINATED</div>' : '';
 
-  return `<div class="card${(isElim || unconfirmed) ? ' eliminated' : ''}" style="background:${bg};border-color:${borderColor}">
+  return `<div class="card${isElim ? ' eliminated' : ''}" style="background:${bg};border-color:${borderColor}">
     ${rankBadge}
     <div class="card-header">
       <div class="card-flag">${e.flag}</div>
