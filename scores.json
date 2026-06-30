@@ -127,8 +127,8 @@
       "gf": 6,
       "ga": 3,
       "points": 7,
-      "lastResult": "W: 4-2 vs Haiti",
-      "nextMatch": "vs Netherlands, 30 Jun"
+      "lastResult": "W: 4-3 vs Netherlands",
+      "nextMatch": "TBD"
     },
     "Scotland": {
       "status": "Active",
@@ -192,7 +192,7 @@
       "gf": 2,
       "ga": 4,
       "points": 4,
-      "lastResult": "W: 6-5 vs Germany",
+      "lastResult": "W: 5-4 vs Germany",
       "nextMatch": "TBD"
     },
     "Turkey": {
@@ -218,7 +218,7 @@
       "gf": 10,
       "ga": 4,
       "points": 6,
-      "lastResult": "L: 5-6 vs Paraguay",
+      "lastResult": "L: 4-5 vs Paraguay",
       "nextMatch": "TBD"
     },
     "Ivory Coast": {
@@ -270,8 +270,8 @@
       "gf": 10,
       "ga": 4,
       "points": 7,
-      "lastResult": "W: 3-1 vs Tunisia",
-      "nextMatch": "vs Morocco, 30 Jun"
+      "lastResult": "L: 3-4 vs Morocco",
+      "nextMatch": "TBD"
     },
     "Japan": {
       "status": "Active",
@@ -625,5 +625,5 @@
       "nextMatch": "TBD"
     }
   },
-  "lastUpdated": "00:09"
+  "lastUpdated": "04:21"
 }
