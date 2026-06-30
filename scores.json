@@ -296,8 +296,8 @@
       "gf": 7,
       "ga": 7,
       "points": 4,
-      "lastResult": "D: 1-1 vs Japan",
-      "nextMatch": "vs France (LIVE)"
+      "lastResult": "L: 0-3 vs France",
+      "nextMatch": "TBD"
     },
     "Tunisia": {
       "status": "Active",
@@ -426,8 +426,8 @@
       "gf": 10,
       "ga": 2,
       "points": 9,
-      "lastResult": "W: 4-1 vs Norway",
-      "nextMatch": "vs Sweden (LIVE)"
+      "lastResult": "W: 3-0 vs Sweden",
+      "nextMatch": "TBD"
     },
     "Norway": {
       "status": "Active",
@@ -625,5 +625,5 @@
       "nextMatch": "TBD"
     }
   },
-  "lastUpdated": "22:21"
+  "lastUpdated": "23:40"
 }
