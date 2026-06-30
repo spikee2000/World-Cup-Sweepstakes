@@ -231,8 +231,8 @@
       "gf": 4,
       "ga": 2,
       "points": 6,
-      "lastResult": "W: 2-0 vs Curaçao",
-      "nextMatch": "vs Norway (LIVE)"
+      "lastResult": "L: 1-2 vs Norway",
+      "nextMatch": "TBD"
     },
     "Ecuador": {
       "status": "Active",
@@ -439,8 +439,8 @@
       "gf": 8,
       "ga": 7,
       "points": 6,
-      "lastResult": "L: 1-4 vs France",
-      "nextMatch": "vs Ivory Coast (LIVE)"
+      "lastResult": "W: 2-1 vs Ivory Coast",
+      "nextMatch": "TBD"
     },
     "Senegal": {
       "status": "Active",
@@ -625,5 +625,5 @@
       "nextMatch": "TBD"
     }
   },
-  "lastUpdated": "17:28"
+  "lastUpdated": "19:16"
 }
