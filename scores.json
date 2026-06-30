@@ -297,7 +297,7 @@
       "ga": 7,
       "points": 4,
       "lastResult": "D: 1-1 vs Japan",
-      "nextMatch": "vs France, 30 Jun"
+      "nextMatch": "vs France (LIVE)"
     },
     "Tunisia": {
       "status": "Active",
@@ -427,7 +427,7 @@
       "ga": 2,
       "points": 9,
       "lastResult": "W: 4-1 vs Norway",
-      "nextMatch": "vs Sweden, 30 Jun"
+      "nextMatch": "vs Sweden (LIVE)"
     },
     "Norway": {
       "status": "Active",
@@ -625,5 +625,5 @@
       "nextMatch": "TBD"
     }
   },
-  "lastUpdated": "19:16"
+  "lastUpdated": "21:05"
 }
