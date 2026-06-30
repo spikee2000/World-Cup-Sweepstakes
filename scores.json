@@ -232,7 +232,7 @@
       "ga": 2,
       "points": 6,
       "lastResult": "W: 2-0 vs Curaçao",
-      "nextMatch": "vs Norway, 30 Jun"
+      "nextMatch": "vs Norway (LIVE)"
     },
     "Ecuador": {
       "status": "Active",
@@ -440,7 +440,7 @@
       "ga": 7,
       "points": 6,
       "lastResult": "L: 1-4 vs France",
-      "nextMatch": "vs Ivory Coast, 30 Jun"
+      "nextMatch": "vs Ivory Coast (LIVE)"
     },
     "Senegal": {
       "status": "Active",
@@ -625,5 +625,5 @@
       "nextMatch": "TBD"
     }
   },
-  "lastUpdated": "15:42"
+  "lastUpdated": "17:28"
 }
