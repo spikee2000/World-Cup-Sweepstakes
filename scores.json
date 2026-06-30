@@ -76,7 +76,7 @@
       "ga": 3,
       "points": 4,
       "lastResult": "W: 1-0 vs South Africa",
-      "nextMatch": "vs null, 4 Jul"
+      "nextMatch": "vs Morocco, 4 Jul"
     },
     "Bosnia-Herzegovina": {
       "status": "Active",
@@ -115,7 +115,7 @@
       "ga": 1,
       "points": 7,
       "lastResult": "W: 2-1 vs Japan",
-      "nextMatch": "TBD"
+      "nextMatch": "vs null, 5 Jul"
     },
     "Morocco": {
       "status": "Active",
@@ -128,7 +128,7 @@
       "ga": 3,
       "points": 7,
       "lastResult": "W: 4-3 vs Netherlands",
-      "nextMatch": "TBD"
+      "nextMatch": "vs Canada, 4 Jul"
     },
     "Scotland": {
       "status": "Active",
@@ -193,7 +193,7 @@
       "ga": 4,
       "points": 4,
       "lastResult": "W: 5-4 vs Germany",
-      "nextMatch": "TBD"
+      "nextMatch": "vs null, 4 Jul"
     },
     "Turkey": {
       "status": "Active",
@@ -625,5 +625,5 @@
       "nextMatch": "TBD"
     }
   },
-  "lastUpdated": "04:21"
+  "lastUpdated": "08:04"
 }
