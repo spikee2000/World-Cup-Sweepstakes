@@ -11,7 +11,7 @@
       "ga": 0,
       "points": 9,
       "lastResult": "W: 3-0 vs Czechia",
-      "nextMatch": "vs Ecuador, 1 Jul"
+      "nextMatch": "vs Ecuador (LIVE)"
     },
     "South Africa": {
       "status": "Active",
@@ -245,7 +245,7 @@
       "ga": 2,
       "points": 4,
       "lastResult": "W: 2-1 vs Germany",
-      "nextMatch": "vs Mexico, 1 Jul"
+      "nextMatch": "vs Mexico (LIVE)"
     },
     "Curaçao": {
       "status": "Active",
@@ -625,5 +625,5 @@
       "nextMatch": "TBD"
     }
   },
-  "lastUpdated": "23:40"
+  "lastUpdated": "01:54"
 }
