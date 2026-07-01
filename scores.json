@@ -323,7 +323,7 @@
       "ga": 2,
       "points": 5,
       "lastResult": "W: 5-1 vs New Zealand",
-      "nextMatch": "vs Senegal, 1 Jul"
+      "nextMatch": "vs Senegal (LIVE)"
     },
     "Egypt": {
       "status": "Active",
@@ -453,7 +453,7 @@
       "ga": 6,
       "points": 3,
       "lastResult": "W: 5-0 vs Iraq",
-      "nextMatch": "vs Belgium, 1 Jul"
+      "nextMatch": "vs Belgium (LIVE)"
     },
     "Iraq": {
       "status": "Active",
@@ -625,5 +625,5 @@
       "nextMatch": "TBD"
     }
   },
-  "lastUpdated": "19:16"
+  "lastUpdated": "20:55"
 }
