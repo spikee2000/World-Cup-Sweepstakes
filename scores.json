@@ -556,8 +556,8 @@
       "gf": 4,
       "ga": 3,
       "points": 4,
-      "lastResult": "W: 3-1 vs Uzbekistan",
-      "nextMatch": "vs England (LIVE)"
+      "lastResult": "L: 1-2 vs England",
+      "nextMatch": "TBD"
     },
     "Uzbekistan": {
       "status": "Active",
@@ -582,8 +582,8 @@
       "gf": 6,
       "ga": 2,
       "points": 7,
-      "lastResult": "W: 2-0 vs Panama",
-      "nextMatch": "vs Congo DR (LIVE)"
+      "lastResult": "W: 2-1 vs Congo DR",
+      "nextMatch": "TBD"
     },
     "Croatia": {
       "status": "Active",
@@ -625,5 +625,5 @@
       "nextMatch": "TBD"
     }
   },
-  "lastUpdated": "17:28"
+  "lastUpdated": "19:16"
 }
