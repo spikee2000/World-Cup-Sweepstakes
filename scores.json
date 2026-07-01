@@ -115,7 +115,7 @@
       "ga": 1,
       "points": 7,
       "lastResult": "W: 2-1 vs Japan",
-      "nextMatch": "vs null, 5 Jul"
+      "nextMatch": "vs Norway, 5 Jul"
     },
     "Morocco": {
       "status": "Active",
@@ -193,7 +193,7 @@
       "ga": 4,
       "points": 4,
       "lastResult": "W: 5-4 vs Germany",
-      "nextMatch": "vs null, 4 Jul"
+      "nextMatch": "vs France, 4 Jul"
     },
     "Turkey": {
       "status": "Active",
@@ -427,7 +427,7 @@
       "ga": 2,
       "points": 9,
       "lastResult": "W: 3-0 vs Sweden",
-      "nextMatch": "TBD"
+      "nextMatch": "vs Paraguay, 4 Jul"
     },
     "Norway": {
       "status": "Active",
@@ -440,7 +440,7 @@
       "ga": 7,
       "points": 6,
       "lastResult": "W: 2-1 vs Ivory Coast",
-      "nextMatch": "TBD"
+      "nextMatch": "vs Brazil, 5 Jul"
     },
     "Senegal": {
       "status": "Active",
@@ -625,5 +625,5 @@
       "nextMatch": "TBD"
     }
   },
-  "lastUpdated": "06:13"
+  "lastUpdated": "10:12"
 }
