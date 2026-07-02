@@ -11,7 +11,7 @@
       "ga": 0,
       "points": 9,
       "lastResult": "W: 2-0 vs Ecuador",
-      "nextMatch": "TBD"
+      "nextMatch": "vs England, 6 Jul"
     },
     "South Africa": {
       "status": "Active",
@@ -167,7 +167,7 @@
       "ga": 4,
       "points": 6,
       "lastResult": "W: 2-0 vs Bosnia-Herzegovina",
-      "nextMatch": "TBD"
+      "nextMatch": "vs Belgium, 7 Jul"
     },
     "Australia": {
       "status": "Active",
@@ -323,7 +323,7 @@
       "ga": 2,
       "points": 5,
       "lastResult": "W: 3-2 vs Senegal",
-      "nextMatch": "TBD"
+      "nextMatch": "vs United States, 7 Jul"
     },
     "Egypt": {
       "status": "Active",
@@ -583,7 +583,7 @@
       "ga": 2,
       "points": 7,
       "lastResult": "W: 2-1 vs Congo DR",
-      "nextMatch": "TBD"
+      "nextMatch": "vs Mexico, 6 Jul"
     },
     "Croatia": {
       "status": "Active",
@@ -625,5 +625,5 @@
       "nextMatch": "TBD"
     }
   },
-  "lastUpdated": "05:38"
+  "lastUpdated": "08:31"
 }
