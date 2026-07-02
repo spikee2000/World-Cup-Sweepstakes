@@ -88,8 +88,8 @@
       "gf": 5,
       "ga": 6,
       "points": 4,
-      "lastResult": "W: 3-1 vs Qatar",
-      "nextMatch": "vs United States (LIVE)"
+      "lastResult": "L: 0-2 vs United States",
+      "nextMatch": "TBD"
     },
     "Qatar": {
       "status": "Active",
@@ -166,8 +166,8 @@
       "gf": 8,
       "ga": 4,
       "points": 6,
-      "lastResult": "L: 2-3 vs Turkey",
-      "nextMatch": "vs Bosnia-Herzegovina (LIVE)"
+      "lastResult": "W: 2-0 vs Bosnia-Herzegovina",
+      "nextMatch": "TBD"
     },
     "Australia": {
       "status": "Active",
@@ -625,5 +625,5 @@
       "nextMatch": "TBD"
     }
   },
-  "lastUpdated": "01:35"
+  "lastUpdated": "05:38"
 }
