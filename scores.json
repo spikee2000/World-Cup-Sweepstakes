@@ -89,7 +89,7 @@
       "ga": 6,
       "points": 4,
       "lastResult": "W: 3-1 vs Qatar",
-      "nextMatch": "vs United States, 2 Jul"
+      "nextMatch": "vs United States (LIVE)"
     },
     "Qatar": {
       "status": "Active",
@@ -167,7 +167,7 @@
       "ga": 4,
       "points": 6,
       "lastResult": "L: 2-3 vs Turkey",
-      "nextMatch": "vs Bosnia-Herzegovina, 2 Jul"
+      "nextMatch": "vs Bosnia-Herzegovina (LIVE)"
     },
     "Australia": {
       "status": "Active",
@@ -625,5 +625,5 @@
       "nextMatch": "TBD"
     }
   },
-  "lastUpdated": "23:40"
+  "lastUpdated": "01:35"
 }
