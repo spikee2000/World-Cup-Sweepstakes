@@ -544,7 +544,7 @@
       "ga": 1,
       "points": 5,
       "lastResult": "D: 0-0 vs Colombia",
-      "nextMatch": "vs Croatia, 2 Jul"
+      "nextMatch": "vs Croatia (LIVE)"
     },
     "Congo DR": {
       "status": "Active",
@@ -596,7 +596,7 @@
       "ga": 5,
       "points": 6,
       "lastResult": "W: 2-1 vs Ghana",
-      "nextMatch": "vs Portugal, 2 Jul"
+      "nextMatch": "vs Portugal (LIVE)"
     },
     "Ghana": {
       "status": "Active",
@@ -625,5 +625,5 @@
       "nextMatch": "TBD"
     }
   },
-  "lastUpdated": "22:29"
+  "lastUpdated": "23:36"
 }
