@@ -374,8 +374,8 @@
       "gf": 5,
       "ga": 0,
       "points": 7,
-      "lastResult": "W: 1-0 vs Uruguay",
-      "nextMatch": "vs Austria (LIVE)"
+      "lastResult": "W: 3-0 vs Austria",
+      "nextMatch": "TBD"
     },
     "Cape Verde Islands": {
       "status": "Active",
@@ -491,8 +491,8 @@
       "gf": 6,
       "ga": 6,
       "points": 4,
-      "lastResult": "D: 3-3 vs Algeria",
-      "nextMatch": "vs Spain (LIVE)"
+      "lastResult": "L: 0-3 vs Spain",
+      "nextMatch": "TBD"
     },
     "Algeria": {
       "status": "Active",
@@ -625,5 +625,5 @@
       "nextMatch": "TBD"
     }
   },
-  "lastUpdated": "20:07"
+  "lastUpdated": "21:20"
 }
