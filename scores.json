@@ -179,8 +179,8 @@
       "gf": 2,
       "ga": 2,
       "points": 4,
-      "lastResult": "D: 0-0 vs Paraguay",
-      "nextMatch": "vs Egypt (LIVE)"
+      "lastResult": "L: 3-5 vs Egypt",
+      "nextMatch": "TBD"
     },
     "Paraguay": {
       "status": "Active",
@@ -335,8 +335,8 @@
       "gf": 5,
       "ga": 3,
       "points": 5,
-      "lastResult": "D: 1-1 vs Iran",
-      "nextMatch": "vs Australia (LIVE)"
+      "lastResult": "W: 5-3 vs Australia",
+      "nextMatch": "TBD"
     },
     "Iran": {
       "status": "Active",
@@ -625,5 +625,5 @@
       "nextMatch": "TBD"
     }
   },
-  "lastUpdated": "20:05"
+  "lastUpdated": "21:18"
 }
