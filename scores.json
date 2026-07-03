@@ -62,8 +62,8 @@
       "gf": 7,
       "ga": 3,
       "points": 7,
-      "lastResult": "W: 2-1 vs Canada",
-      "nextMatch": "vs Algeria (LIVE)"
+      "lastResult": "W: 2-0 vs Algeria",
+      "nextMatch": "TBD"
     },
     "Canada": {
       "status": "Active",
@@ -504,8 +504,8 @@
       "gf": 5,
       "ga": 7,
       "points": 4,
-      "lastResult": "D: 3-3 vs Austria",
-      "nextMatch": "vs Switzerland (LIVE)"
+      "lastResult": "L: 0-2 vs Switzerland",
+      "nextMatch": "TBD"
     },
     "Jordan": {
       "status": "Active",
@@ -625,5 +625,5 @@
       "nextMatch": "TBD"
     }
   },
-  "lastUpdated": "04:55"
+  "lastUpdated": "07:54"
 }
