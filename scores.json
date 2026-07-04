@@ -387,8 +387,8 @@
       "gf": 2,
       "ga": 2,
       "points": 3,
-      "lastResult": "D: 0-0 vs Saudi Arabia",
-      "nextMatch": "vs Argentina (LIVE)"
+      "lastResult": "L: 2-3 vs Argentina",
+      "nextMatch": "TBD"
     },
     "Uruguay": {
       "status": "Active",
@@ -478,8 +478,8 @@
       "gf": 8,
       "ga": 1,
       "points": 9,
-      "lastResult": "W: 3-1 vs Jordan",
-      "nextMatch": "vs Cape Verde Islands (LIVE)"
+      "lastResult": "W: 3-2 vs Cape Verde Islands",
+      "nextMatch": "TBD"
     },
     "Austria": {
       "status": "Active",
@@ -625,5 +625,5 @@
       "nextMatch": "TBD"
     }
   },
-  "lastUpdated": "23:28"
+  "lastUpdated": "01:06"
 }
