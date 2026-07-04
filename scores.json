@@ -530,8 +530,8 @@
       "gf": 4,
       "ga": 1,
       "points": 7,
-      "lastResult": "D: 0-0 vs Portugal",
-      "nextMatch": "vs Ghana, 4 Jul"
+      "lastResult": "W: 1-0 vs Ghana",
+      "nextMatch": "TBD"
     },
     "Portugal": {
       "status": "Active",
@@ -608,8 +608,8 @@
       "gf": 2,
       "ga": 2,
       "points": 4,
-      "lastResult": "L: 1-2 vs Croatia",
-      "nextMatch": "vs Colombia, 4 Jul"
+      "lastResult": "L: 0-1 vs Colombia",
+      "nextMatch": "TBD"
     },
     "Panama": {
       "status": "Active",
@@ -625,5 +625,5 @@
       "nextMatch": "TBD"
     }
   },
-  "lastUpdated": "01:06"
+  "lastUpdated": "04:45"
 }
