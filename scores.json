@@ -63,7 +63,7 @@
       "ga": 3,
       "points": 7,
       "lastResult": "W: 2-0 vs Algeria",
-      "nextMatch": "TBD"
+      "nextMatch": "vs Colombia, 7 Jul"
     },
     "Canada": {
       "status": "Active",
@@ -336,7 +336,7 @@
       "ga": 3,
       "points": 5,
       "lastResult": "W: 5-3 vs Australia",
-      "nextMatch": "TBD"
+      "nextMatch": "vs Argentina, 7 Jul"
     },
     "Iran": {
       "status": "Active",
@@ -375,7 +375,7 @@
       "ga": 0,
       "points": 7,
       "lastResult": "W: 3-0 vs Austria",
-      "nextMatch": "TBD"
+      "nextMatch": "vs Portugal, 6 Jul"
     },
     "Cape Verde Islands": {
       "status": "Active",
@@ -479,7 +479,7 @@
       "ga": 1,
       "points": 9,
       "lastResult": "W: 3-2 vs Cape Verde Islands",
-      "nextMatch": "TBD"
+      "nextMatch": "vs Egypt, 7 Jul"
     },
     "Austria": {
       "status": "Active",
@@ -531,7 +531,7 @@
       "ga": 1,
       "points": 7,
       "lastResult": "W: 1-0 vs Ghana",
-      "nextMatch": "TBD"
+      "nextMatch": "vs Switzerland, 7 Jul"
     },
     "Portugal": {
       "status": "Active",
@@ -544,7 +544,7 @@
       "ga": 1,
       "points": 5,
       "lastResult": "W: 2-1 vs Croatia",
-      "nextMatch": "TBD"
+      "nextMatch": "vs Spain, 6 Jul"
     },
     "Congo DR": {
       "status": "Active",
@@ -625,5 +625,5 @@
       "nextMatch": "TBD"
     }
   },
-  "lastUpdated": "04:45"
+  "lastUpdated": "07:29"
 }
