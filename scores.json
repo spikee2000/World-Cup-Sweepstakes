@@ -192,8 +192,8 @@
       "gf": 2,
       "ga": 4,
       "points": 4,
-      "lastResult": "W: 5-4 vs Germany",
-      "nextMatch": "vs France (LIVE)"
+      "lastResult": "L: 0-1 vs France",
+      "nextMatch": "TBD"
     },
     "Turkey": {
       "status": "Active",
@@ -426,8 +426,8 @@
       "gf": 10,
       "ga": 2,
       "points": 9,
-      "lastResult": "W: 3-0 vs Sweden",
-      "nextMatch": "vs Paraguay (LIVE)"
+      "lastResult": "W: 1-0 vs Paraguay",
+      "nextMatch": "TBD"
     },
     "Norway": {
       "status": "Active",
@@ -625,5 +625,5 @@
       "nextMatch": "TBD"
     }
   },
-  "lastUpdated": "22:11"
+  "lastUpdated": "23:11"
 }
