@@ -193,7 +193,7 @@
       "ga": 4,
       "points": 4,
       "lastResult": "W: 5-4 vs Germany",
-      "nextMatch": "vs France, 4 Jul"
+      "nextMatch": "TBD"
     },
     "Turkey": {
       "status": "Active",
@@ -427,7 +427,7 @@
       "ga": 2,
       "points": 9,
       "lastResult": "W: 3-0 vs Sweden",
-      "nextMatch": "vs Paraguay, 4 Jul"
+      "nextMatch": "TBD"
     },
     "Norway": {
       "status": "Active",
@@ -625,5 +625,5 @@
       "nextMatch": "TBD"
     }
   },
-  "lastUpdated": "20:17"
+  "lastUpdated": "21:14"
 }
