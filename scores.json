@@ -76,7 +76,7 @@
       "ga": 3,
       "points": 4,
       "lastResult": "W: 1-0 vs South Africa",
-      "nextMatch": "vs Morocco, 4 Jul"
+      "nextMatch": "vs Morocco (LIVE)"
     },
     "Bosnia-Herzegovina": {
       "status": "Active",
@@ -128,7 +128,7 @@
       "ga": 3,
       "points": 7,
       "lastResult": "W: 4-3 vs Netherlands",
-      "nextMatch": "vs Canada, 4 Jul"
+      "nextMatch": "vs Canada (LIVE)"
     },
     "Scotland": {
       "status": "Active",
@@ -625,5 +625,5 @@
       "nextMatch": "TBD"
     }
   },
-  "lastUpdated": "17:00"
+  "lastUpdated": "18:01"
 }
