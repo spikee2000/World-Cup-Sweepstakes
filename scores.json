@@ -128,7 +128,7 @@
       "ga": 3,
       "points": 7,
       "lastResult": "W: 3-0 vs Canada",
-      "nextMatch": "TBD"
+      "nextMatch": "vs France, 9 Jul"
     },
     "Scotland": {
       "status": "Active",
@@ -427,7 +427,7 @@
       "ga": 2,
       "points": 9,
       "lastResult": "W: 1-0 vs Paraguay",
-      "nextMatch": "TBD"
+      "nextMatch": "vs Morocco, 9 Jul"
     },
     "Norway": {
       "status": "Active",
@@ -625,5 +625,5 @@
       "nextMatch": "TBD"
     }
   },
-  "lastUpdated": "04:17"
+  "lastUpdated": "07:40"
 }
