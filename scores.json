@@ -115,7 +115,7 @@
       "ga": 1,
       "points": 7,
       "lastResult": "W: 2-1 vs Japan",
-      "nextMatch": "vs Norway, 5 Jul"
+      "nextMatch": "vs Norway (LIVE)"
     },
     "Morocco": {
       "status": "Active",
@@ -440,7 +440,7 @@
       "ga": 7,
       "points": 6,
       "lastResult": "W: 2-1 vs Ivory Coast",
-      "nextMatch": "vs Brazil, 5 Jul"
+      "nextMatch": "vs Brazil (LIVE)"
     },
     "Senegal": {
       "status": "Active",
@@ -625,5 +625,5 @@
       "nextMatch": "TBD"
     }
   },
-  "lastUpdated": "19:56"
+  "lastUpdated": "20:45"
 }
