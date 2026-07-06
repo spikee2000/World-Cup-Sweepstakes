@@ -10,8 +10,8 @@
       "gf": 6,
       "ga": 0,
       "points": 9,
-      "lastResult": "W: 2-0 vs Ecuador",
-      "nextMatch": "vs England (LIVE)"
+      "lastResult": "L: 2-3 vs England",
+      "nextMatch": "TBD"
     },
     "South Africa": {
       "status": "Active",
@@ -582,8 +582,8 @@
       "gf": 6,
       "ga": 2,
       "points": 7,
-      "lastResult": "W: 2-1 vs Congo DR",
-      "nextMatch": "vs Mexico (LIVE)"
+      "lastResult": "W: 3-2 vs Mexico",
+      "nextMatch": "TBD"
     },
     "Croatia": {
       "status": "Active",
@@ -625,5 +625,5 @@
       "nextMatch": "TBD"
     }
   },
-  "lastUpdated": "01:20"
+  "lastUpdated": "05:39"
 }
