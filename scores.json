@@ -375,7 +375,7 @@
       "ga": 0,
       "points": 7,
       "lastResult": "W: 3-0 vs Austria",
-      "nextMatch": "vs Portugal, 6 Jul"
+      "nextMatch": "vs Portugal (LIVE)"
     },
     "Cape Verde Islands": {
       "status": "Active",
@@ -544,7 +544,7 @@
       "ga": 1,
       "points": 5,
       "lastResult": "W: 2-1 vs Croatia",
-      "nextMatch": "vs Spain, 6 Jul"
+      "nextMatch": "vs Spain (LIVE)"
     },
     "Congo DR": {
       "status": "Active",
@@ -625,5 +625,5 @@
       "nextMatch": "TBD"
     }
   },
-  "lastUpdated": "18:24"
+  "lastUpdated": "20:18"
 }
