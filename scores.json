@@ -167,7 +167,7 @@
       "ga": 4,
       "points": 6,
       "lastResult": "W: 2-0 vs Bosnia-Herzegovina",
-      "nextMatch": "vs Belgium, 7 Jul"
+      "nextMatch": "vs Belgium (LIVE)"
     },
     "Australia": {
       "status": "Active",
@@ -323,7 +323,7 @@
       "ga": 2,
       "points": 5,
       "lastResult": "W: 3-2 vs Senegal",
-      "nextMatch": "vs United States, 7 Jul"
+      "nextMatch": "vs United States (LIVE)"
     },
     "Egypt": {
       "status": "Active",
@@ -625,5 +625,5 @@
       "nextMatch": "TBD"
     }
   },
-  "lastUpdated": "23:49"
+  "lastUpdated": "01:26"
 }
