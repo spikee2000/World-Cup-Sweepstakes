@@ -336,7 +336,7 @@
       "ga": 3,
       "points": 5,
       "lastResult": "W: 5-3 vs Australia",
-      "nextMatch": "vs Argentina, 7 Jul"
+      "nextMatch": "vs Argentina (LIVE)"
     },
     "Iran": {
       "status": "Active",
@@ -479,7 +479,7 @@
       "ga": 1,
       "points": 9,
       "lastResult": "W: 3-2 vs Cape Verde Islands",
-      "nextMatch": "vs Egypt, 7 Jul"
+      "nextMatch": "vs Egypt (LIVE)"
     },
     "Austria": {
       "status": "Active",
@@ -625,5 +625,5 @@
       "nextMatch": "TBD"
     }
   },
-  "lastUpdated": "16:05"
+  "lastUpdated": "18:09"
 }
