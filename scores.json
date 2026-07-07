@@ -323,7 +323,7 @@
       "ga": 2,
       "points": 5,
       "lastResult": "W: 4-1 vs United States",
-      "nextMatch": "TBD"
+      "nextMatch": "vs Spain, 10 Jul"
     },
     "Egypt": {
       "status": "Active",
@@ -375,7 +375,7 @@
       "ga": 0,
       "points": 7,
       "lastResult": "W: 1-0 vs Portugal",
-      "nextMatch": "TBD"
+      "nextMatch": "vs Belgium, 10 Jul"
     },
     "Cape Verde Islands": {
       "status": "Active",
@@ -625,5 +625,5 @@
       "nextMatch": "TBD"
     }
   },
-  "lastUpdated": "05:15"
+  "lastUpdated": "08:43"
 }
