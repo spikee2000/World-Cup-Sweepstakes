@@ -62,8 +62,8 @@
       "gf": 7,
       "ga": 3,
       "points": 7,
-      "lastResult": "W: 2-0 vs Algeria",
-      "nextMatch": "vs Colombia (LIVE)"
+      "lastResult": "W: 4-3 vs Colombia",
+      "nextMatch": "TBD"
     },
     "Canada": {
       "status": "Active",
@@ -530,8 +530,8 @@
       "gf": 4,
       "ga": 1,
       "points": 7,
-      "lastResult": "W: 1-0 vs Ghana",
-      "nextMatch": "vs Switzerland (LIVE)"
+      "lastResult": "L: 3-4 vs Switzerland",
+      "nextMatch": "TBD"
     },
     "Portugal": {
       "status": "Active",
@@ -625,5 +625,5 @@
       "nextMatch": "TBD"
     }
   },
-  "lastUpdated": "22:41"
+  "lastUpdated": "23:34"
 }
