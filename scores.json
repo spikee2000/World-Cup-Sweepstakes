@@ -439,8 +439,8 @@
       "gf": 8,
       "ga": 7,
       "points": 6,
-      "lastResult": "W: 2-1 vs Brazil",
-      "nextMatch": "vs England (LIVE)"
+      "lastResult": "L: 1-2 vs England",
+      "nextMatch": "TBD"
     },
     "Senegal": {
       "status": "Active",
@@ -582,8 +582,8 @@
       "gf": 6,
       "ga": 2,
       "points": 7,
-      "lastResult": "W: 2-1 vs Congo DR",
-      "nextMatch": "vs Norway (LIVE)"
+      "lastResult": "W: 2-1 vs Norway",
+      "nextMatch": "TBD"
     },
     "Croatia": {
       "status": "Active",
@@ -625,5 +625,5 @@
       "nextMatch": "TBD"
     }
   },
-  "lastUpdated": "23:01"
+  "lastUpdated": "23:57"
 }
