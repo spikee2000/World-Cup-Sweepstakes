@@ -62,8 +62,8 @@
       "gf": 7,
       "ga": 3,
       "points": 7,
-      "lastResult": "W: 4-3 vs Colombia",
-      "nextMatch": "vs Argentina (LIVE)"
+      "lastResult": "L: 1-3 vs Argentina",
+      "nextMatch": "TBD"
     },
     "Canada": {
       "status": "Active",
@@ -478,8 +478,8 @@
       "gf": 8,
       "ga": 1,
       "points": 9,
-      "lastResult": "W: 3-2 vs Egypt",
-      "nextMatch": "vs Switzerland (LIVE)"
+      "lastResult": "W: 3-1 vs Switzerland",
+      "nextMatch": "TBD"
     },
     "Austria": {
       "status": "Active",
@@ -625,5 +625,5 @@
       "nextMatch": "TBD"
     }
   },
-  "lastUpdated": "02:05"
+  "lastUpdated": "05:36"
 }
