@@ -374,8 +374,8 @@
       "gf": 5,
       "ga": 0,
       "points": 7,
-      "lastResult": "W: 2-1 vs Belgium",
-      "nextMatch": "vs France (LIVE)"
+      "lastResult": "W: 2-0 vs France",
+      "nextMatch": "TBD"
     },
     "Cape Verde Islands": {
       "status": "Active",
@@ -426,8 +426,8 @@
       "gf": 10,
       "ga": 2,
       "points": 9,
-      "lastResult": "W: 2-0 vs Morocco",
-      "nextMatch": "vs Spain (LIVE)"
+      "lastResult": "L: 0-2 vs Spain",
+      "nextMatch": "TBD"
     },
     "Norway": {
       "status": "Active",
@@ -625,5 +625,5 @@
       "nextMatch": "TBD"
     }
   },
-  "lastUpdated": "20:59"
+  "lastUpdated": "21:57"
 }
