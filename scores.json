@@ -479,7 +479,7 @@
       "ga": 1,
       "points": 9,
       "lastResult": "W: 3-1 vs Switzerland",
-      "nextMatch": "vs England, 15 Jul"
+      "nextMatch": "vs England (LIVE)"
     },
     "Austria": {
       "status": "Active",
@@ -583,7 +583,7 @@
       "ga": 2,
       "points": 7,
       "lastResult": "W: 2-1 vs Norway",
-      "nextMatch": "vs Argentina, 15 Jul"
+      "nextMatch": "vs Argentina (LIVE)"
     },
     "Croatia": {
       "status": "Active",
@@ -625,5 +625,5 @@
       "nextMatch": "TBD"
     }
   },
-  "lastUpdated": "18:41"
+  "lastUpdated": "19:49"
 }
