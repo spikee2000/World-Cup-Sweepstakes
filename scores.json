@@ -375,7 +375,7 @@
       "ga": 0,
       "points": 7,
       "lastResult": "W: 2-0 vs France",
-      "nextMatch": "vs null, 19 Jul"
+      "nextMatch": "vs Argentina, 19 Jul"
     },
     "Cape Verde Islands": {
       "status": "Active",
@@ -427,7 +427,7 @@
       "ga": 2,
       "points": 9,
       "lastResult": "L: 0-2 vs Spain",
-      "nextMatch": "vs null, 18 Jul"
+      "nextMatch": "vs England, 18 Jul"
     },
     "Norway": {
       "status": "Active",
@@ -479,7 +479,7 @@
       "ga": 1,
       "points": 9,
       "lastResult": "W: 2-1 vs England",
-      "nextMatch": "TBD"
+      "nextMatch": "vs Spain, 19 Jul"
     },
     "Austria": {
       "status": "Active",
@@ -583,7 +583,7 @@
       "ga": 2,
       "points": 7,
       "lastResult": "L: 1-2 vs Argentina",
-      "nextMatch": "TBD"
+      "nextMatch": "vs France, 18 Jul"
     },
     "Croatia": {
       "status": "Active",
@@ -625,5 +625,5 @@
       "nextMatch": "TBD"
     }
   },
-  "lastUpdated": "04:11"
+  "lastUpdated": "06:29"
 }
