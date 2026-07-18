@@ -427,7 +427,7 @@
       "ga": 2,
       "points": 9,
       "lastResult": "L: 0-2 vs Spain",
-      "nextMatch": "vs England, 18 Jul"
+      "nextMatch": "vs England (LIVE)"
     },
     "Norway": {
       "status": "Active",
@@ -583,7 +583,7 @@
       "ga": 2,
       "points": 7,
       "lastResult": "L: 1-2 vs Argentina",
-      "nextMatch": "vs France, 18 Jul"
+      "nextMatch": "vs France (LIVE)"
     },
     "Croatia": {
       "status": "Active",
@@ -625,5 +625,5 @@
       "nextMatch": "TBD"
     }
   },
-  "lastUpdated": "20:24"
+  "lastUpdated": "21:09"
 }
