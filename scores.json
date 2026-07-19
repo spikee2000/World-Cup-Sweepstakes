@@ -375,7 +375,7 @@
       "ga": 0,
       "points": 7,
       "lastResult": "W: 2-0 vs France",
-      "nextMatch": "vs Argentina (LIVE)"
+      "nextMatch": "TBD"
     },
     "Cape Verde Islands": {
       "status": "Active",
@@ -479,7 +479,7 @@
       "ga": 1,
       "points": 9,
       "lastResult": "W: 2-1 vs England",
-      "nextMatch": "vs Spain (LIVE)"
+      "nextMatch": "TBD"
     },
     "Austria": {
       "status": "Active",
@@ -625,5 +625,5 @@
       "nextMatch": "TBD"
     }
   },
-  "lastUpdated": "21:05"
+  "lastUpdated": "22:01"
 }
